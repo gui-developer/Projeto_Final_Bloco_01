@@ -1,5 +1,7 @@
 import Model.Livro;
+import Model.LivrosNaoEncontradoException;
 import Model.Produto;
+import Model.Validacao;
 import org.w3c.dom.ls.LSOutput;
 
 import javax.swing.plaf.synth.SynthOptionPaneUI;
@@ -71,8 +73,13 @@ public static void main () {
                     break;
                 case 3:
                     System.out.println ("Digite o código do livro");
-                    int id = scanner.nextInt ();
-                    produtoController.listarPorId (id);
+                    int id = Validacao.lerInteiro (scanner);
+                    scanner.nextLine ();
+                    try {
+                        produtoController.listarPorId(id); // O Controller lança a exceção se não achar
+                    } catch (LivrosNaoEncontradoException e) {
+                        System.err.println(e.getMessage()); // Exibe a SUA mensagem
+                    }
                     break;
                 case 4:
                     System.out.println ("Digite o código do livro que deseja editar");
